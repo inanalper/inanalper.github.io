@@ -3,4 +3,11 @@ body{
 }
 h1{
     font-weight: normal;
+    text-align: center;
+}
+footer{
+    text-align: center;
+}
+header a{
+    font-size: large;
 }
