@@ -1,5 +1,11 @@
+html{
+    font-family: source code pro;
+}
 body{
     background-color: #BDE9F1;
+}
+header{
+    text-align: right;
 }
 header a:hover{
     font-size: large;
