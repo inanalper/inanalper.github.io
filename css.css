@@ -1,13 +1,36 @@
 body{
-    background-color: bisque;
+    background-color: #BDE9F1;
+}
+header a:hover{
+    font-size: large;
+    color: rgb(29, 156, 50);
+    text-decoration:black underline;
+}
+header ul li a{
+    color: rgb(30, 85, 35);
+    text-decoration: none;
 }
 h1{
     font-weight: normal;
     text-align: center;
 }
+ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+button:hover{
+    background-color: bisque;
+}
+button:active{
+    background-color: black;
+    color: white;
+}
 footer{
     text-align: center;
 }
-header a{
-    font-size: large;
+footer img{
+    width: 40px;
+    height: 40px;
 }
+
