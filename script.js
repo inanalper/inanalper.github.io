@@ -168,7 +168,19 @@ static int groups_from_user(struct group_info *group_info,
 
 let emptyStr = "";
 let i = 0;
-document.addEventListener("keydown", function () {
+document.addEventListener("keydown", function (e) {
+  if (
+    e.key === "Shift" &&
+    document.querySelector(".modal").classList.contains("hidden")
+  ) {
+    document.querySelector(".modal").classList.remove("hidden");
+  } else if (
+    e.key === "Shift" &&
+    !document.querySelector(".modal").classList.contains("hidden")
+  ) {
+    document.querySelector(".modal").classList.add("hidden");
+  }
   emptyStr += str.charAt(i++) + str.charAt(i++) + str.charAt(i++);
   document.querySelector("#string").textContent = emptyStr;
+  window.scrollTo(0, document.body.scrollHeight);
 });

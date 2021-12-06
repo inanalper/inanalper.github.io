@@ -2,3 +2,26 @@ body {
   background-color: black;
   color: rgb(6, 180, 6);
 }
+
+.modal {
+  background-color: green;
+  color: blue;
+  font-size: 300%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  vertical-align: middle;
+  size: 50px;
+  position: absolute;
+  margin: auto;
+  top: 30%;
+  left: 30%;
+  width: 30%;
+  height: 20%;
+  border: 3px solid rgb(2, 0, 128);
+  padding: 30px;
+}
+.hidden {
+  visibility: hidden;
+}
