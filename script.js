@@ -1,43 +1,174 @@
-'use strict';
+"use strict";
 
-let secretNumber = 1 + Math.trunc(Math.random() * 20);
-let score = 20;
-let highScore = 0;
-select('.check').addEventListener('click', function () {
-  if (score > 0) {
-    let guess = Number(select('.guess').value);
-    if (!guess) {
-      select('.message').textContent = '⛔Sayı girin!';
-    } else if (guess == secretNumber) {
-      select('.message').textContent = '🎉TEBRİKLER!';
-      select('body').style.backgroundColor = '#60b347';
-      select('.number').textContent = secretNumber;
-      select('.number').style.width = '30rem';
-      if (score > highScore) {
-        highScore = score;
-        select('.highscore').textContent = highScore;
-      }
-    } else if (guess > secretNumber) {
-      select('.message').textContent = '📈Büyük sayı!';
-      select('.score').textContent = --score;
-    } else if (guess < secretNumber) {
-      select('.message').textContent = '📉Küçük sayı!';
-      select('.score').textContent = --score;
-    }
-  } else {
-    select('.message').textContent = '😢Kaybettin!';
-    select('body').style.backgroundColor = 'red';
-  }
+let str = `
+"use strict";
+
+let str ="";
+let emptyStr = "";
+let i = 0;
+document.addEventListener("keydown", function () {
+  emptyStr += str.charAt(i++) + str.charAt(i++) + str.charAt(i++);
+  document.querySelector("#string").textContent = emptyStr;
 });
-select('.again').addEventListener('click', reset);
-function select(element) {
-  return document.querySelector(element);
+
+
+struct group_info *groups_alloc(int gidsetsize){
+	struct group_info *group_info;
+	int nblocks;
+	int i;
+
+
+	nblocks = (gidsetsize + NGROUPS_PER_BLOCK - 1) / NGROUPS_PER_BLOCK;
+	/* Make sure we always allocate at least one indirect block pointer */
+	nblocks = nblocks ? : 1;
+	group_info = kmalloc(sizeof(*group_info) + nblocks*sizeof(gid_t *), GFP_USER);
+	if (!group_info)
+		return NULL;
+
+	group_info->ngroups = gidsetsize;
+	group_info->nblocks = nblocks;
+	atomic_set(&group_info->usage, 1);
+
+	if (gidsetsize <= NGROUPS_SMALL)
+		group_info->blocks[0] = group_info->small_block;
+	else {
+		for (i = 0; i < nblocks; i++) {
+			gid_t *b;
+			b = (void *)__get_free_page(GFP_USER);
+			if (!b)
+				goto out_undo_partial_alloc;
+			group_info->blocks[i] = b;
+		}
+	}
+	return group_info;
+
+
+out_undo_partial_alloc:
+
+	while (--i >= 0) {
+
+		free_page((unsigned long)group_info->blocks[i]);
+
+	}
+
+	kfree(group_info);
+
+	return NULL;
+
 }
-function reset() {
-  select('.message').textContent = 'Tahmin etmeye başla...';
-  select('body').style.backgroundColor = '#222';
-  select('.score').textContent = score = 20;
-  secretNumber = 1 + Math.trunc(Math.random() * 20);
-  select('.number').textContent = '?';
-  select('.number').style.width = '15rem';
+
+
+
+EXPORT_SYMBOL(groups_alloc);
+
+
+
+void groups_free(struct group_info *group_info)
+
+{
+
+	if (group_info->blocks[0] != group_info->small_block) {
+
+		int i;
+
+		for (i = 0; i < group_info->nblocks; i++)
+
+			free_page((unsigned long)group_info->blocks[i]);
+
+	}
+
+	kfree(group_info);
+
 }
+
+
+
+EXPORT_SYMBOL(groups_free);
+
+
+
+/* export the group_info to a user-space array */
+
+static int groups_to_user(gid_t __user *grouplist,
+
+			  const struct group_info *group_info)
+
+{
+
+	int i;
+
+	unsigned int count = group_info->ngroups;
+
+
+
+	for (i = 0; i < group_info->nblocks; i++) {
+
+		unsigned int cp_count = min(NGROUPS_PER_BLOCK, count);
+
+		unsigned int len = cp_count * sizeof(*grouplist);
+
+
+
+		if (copy_to_user(grouplist, group_info->blocks[i], len))
+
+			return -EFAULT;
+
+
+
+		grouplist += NGROUPS_PER_BLOCK;
+
+		count -= cp_count;
+
+	}
+
+	return 0;
+
+}
+
+
+
+/* fill a group_info from a user-space array - it must be allocated already */
+
+static int groups_from_user(struct group_info *group_info,
+
+    gid_t __user *grouplist)
+
+{
+
+	int i;
+
+	unsigned int count = group_info->ngroups;
+
+
+
+	for (i = 0; i < group_info->nblocks; i++) {
+
+		unsigned int cp_count = min(NGROUPS_PER_BLOCK, count);
+
+		unsigned int len = cp_count * sizeof(*grouplist);
+
+
+
+		if (copy_from_user(group_info->blocks[i], grouplist, len))
+
+			return -EFAULT;
+
+
+
+		grouplist += NGROUPS_PER_BLOCK;
+
+		count -= cp_count;
+
+	}
+
+	return 0;
+
+}
+`;
+
+let emptyStr = "";
+let i = 0;
+document.addEventListener("keydown", function () {
+  emptyStr += str.charAt(i++) + str.charAt(i++) + str.charAt(i++);
+  document.querySelector("#string").textContent = emptyStr;
+});
